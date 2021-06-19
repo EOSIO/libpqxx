@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
+find_package(PkgConfig REQUIRED)
 
 file(READ VERSION VER_FILE_CONTENT)
 string(STRIP ${VER_FILE_CONTENT} VER_FILE_CONTENT)
@@ -8,6 +9,25 @@ project(
     VERSION ${VER_FILE_CONTENT}
     LANGUAGES CXX
 )
+
+set(SKIP_BUILD_TEST ON)
+set(CMAKE_BUILD_TYPE Release)
+if (EXISTS "/usr/local/pgsql/lib/pkgconfig")
+   if (DEFINED ENV{PKG_CONFIG_PATH})
+      set(ENV{PKG_CONFIG_PATH} "/usr/local/pgsql/lib/pkgconfig:$ENV{PKG_CONFIG_PATH}")
+   else()
+      set(ENV{PKG_CONFIG_PATH} "/usr/local/pgsql/lib/pkgconfig")
+   endif()
+endif()
+
+pkg_check_modules(pq IMPORTED_TARGET  libpq>=13.0)
+
+if (pq_FOUND)
+   set(PostgreSQL_INCLUDE_DIR /usr/local/pgsql/include)
+   set(PostgreSQL_TYPE_INCLUDE_DIR /usr/local/pgsql/include)
+   set(PostgreSQL_LIBRARY_DIR /usr/local/pgsql/lib)
+   set(PostgreSQL_LIBRARY libpq.a)
+endif()
 
 if(NOT "${CMAKE_CXX_STANDARD}")
     set(CMAKE_CXX_STANDARD 17)
