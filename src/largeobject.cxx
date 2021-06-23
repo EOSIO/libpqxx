@@ -198,7 +198,7 @@ pqxx::largeobjectaccess::seek(size_type dest, seekdir dir)
 pqxx::largeobjectaccess::pos_type
 pqxx::largeobjectaccess::cseek(off_type dest, seekdir dir) noexcept
 {
-  return lo_lseek64(raw_connection(), m_fd, dest, std_dir_to_pq_dir(dir));
+  return -1;
 }
 
 
@@ -219,7 +219,7 @@ pqxx::largeobjectaccess::cread(char buf[], std::size_t len) noexcept
 pqxx::largeobjectaccess::pos_type
 pqxx::largeobjectaccess::ctell() const noexcept
 {
-  return lo_tell64(raw_connection(), m_fd);
+  return -1;
 }
 
 

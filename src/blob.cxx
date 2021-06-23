@@ -178,9 +178,7 @@ void pqxx::blob::resize(std::int64_t size)
 {
   if (m_conn == nullptr)
     throw usage_error{"Attempt to resize a closed binary large object."};
-  if (lo_truncate64(raw_conn(m_conn), m_fd, size) < 0)
-    throw failure{
-      internal::concat("Binary large object truncation failed: ", errmsg())};
+  throw failure{"blob resize unsupported"};
 }
 
 
@@ -188,11 +186,8 @@ std::int64_t pqxx::blob::tell() const
 {
   if (m_conn == nullptr)
     throw usage_error{"Attempt to tell() a closed binary large object."};
-  std::int64_t offset{lo_tell64(raw_conn(m_conn), m_fd)};
-  if (offset < 0)
-    throw failure{internal::concat(
-      "Error reading binary large object position: ", errmsg())};
-  return offset;
+  throw failure{"blob tell unsupported"};
+  return -1;
 }
 
 
@@ -200,11 +195,8 @@ std::int64_t pqxx::blob::seek(std::int64_t offset, int whence)
 {
   if (m_conn == nullptr)
     throw usage_error{"Attempt to seek() a closed binary large object."};
-  std::int64_t seek_result{lo_lseek64(raw_conn(m_conn), m_fd, offset, whence)};
-  if (seek_result < 0)
-    throw failure{internal::concat(
-      "Error during seek on binary large object: ", errmsg())};
-  return seek_result;
+  throw failure{"blob seek unsupported"};
+  return -1;
 }
 
 

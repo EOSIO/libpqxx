@@ -1161,29 +1161,5 @@ std::string pqxx::connection::connection_string() const
   if (m_conn == nullptr)
     throw usage_error{"Can't get connection string: connection is not open."};
 
-  std::unique_ptr<
-    PQconninfoOption, std::function<void(PQconninfoOption *)>> const params{
-    PQconninfo(m_conn), PQconninfoFree};
-  if (params.get() == nullptr)
-    throw std::bad_alloc{};
-
-  std::string buf;
-  for (std::size_t i{0}; params.get()[i].keyword != nullptr; ++i)
-  {
-    auto const param{params.get()[i]};
-    if (param.val != nullptr)
-    {
-      auto const default_val{get_default(param)};
-      if (
-        (default_val == nullptr) or (std::strcmp(param.val, default_val) != 0))
-      {
-        if (not std::empty(buf))
-          buf.push_back(' ');
-        buf += param.keyword;
-        buf.push_back('=');
-        buf += param.val;
-      }
-    }
-  }
-  return buf;
+  return "Unsupported";
 }
