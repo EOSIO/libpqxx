@@ -26,7 +26,7 @@ if (pq_FOUND)
    set(PostgreSQL_INCLUDE_DIR /usr/local/pgsql/include)
    set(PostgreSQL_TYPE_INCLUDE_DIR /usr/local/pgsql/include)
    set(PostgreSQL_LIBRARY_DIR /usr/local/pgsql/lib)
-   set(PostgreSQL_LIBRARY libpq.a)
+   set(PostgreSQL_LIBRARY )
 endif()
 
 if(NOT "${CMAKE_CXX_STANDARD}")
