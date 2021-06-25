@@ -26,7 +26,10 @@ macro(library_target_setup tgt)
     	PRIVATE
     		${PostgreSQL_INCLUDE_DIRS}
     )
-    target_link_libraries(${tgt} PRIVATE ${PostgreSQL_LIBRARIES})
+
+# Customized the lib to be link by libpqxx, libpqxx by default find libpq.so to link, we don't need it.
+# And to avoid unexpected lib to be linked to libpqxx, my way is to decouple libpqxx and libpq, we can import any libxx.a we need in eos plugin such as blockvault.
+#   target_link_libraries(${tgt} PRIVATE ${PostgreSQL_LIBRARIES})
     if(WIN32)
         target_link_libraries(${tgt} PUBLIC wsock32 ws2_32)
     endif()
